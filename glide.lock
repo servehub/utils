@@ -1,10 +1,20 @@
-hash: ca29c4814969c0d5abc88da2ca682d337e73b7cc375558a79b03c01614356fb5
-updated: 2017-02-18T00:11:35.195627546+03:00
+hash: 8928f2047f215709d073ed9dee9fb98b4541ceee92adbfb5915fa57e632cd777
+updated: 2017-02-18T00:43:22.102821035+03:00
 imports:
 - name: github.com/fatih/color
   version: 7824417a424b65227be8ac9b14d545a7f3e6c3f0
 - name: github.com/ghodss/yaml
   version: 04f313413ffd65ce25f2541bfd2b2ceec5c0908c
+- name: github.com/hashicorp/consul
+  version: 65b7ed462cc574d57dc6dcc9bca74676089f7fee
+  subpackages:
+  - api
+- name: github.com/hashicorp/go-cleanhttp
+  version: 3573b8b52aa7b37b9358d966a898feb387f62437
+- name: github.com/hashicorp/serf
+  version: 050c56d31a1ff2ebc50e3f4810fdff7e7563f6c8
+  subpackages:
+  - coordinate
 - name: github.com/mattn/go-colorable
   version: 5411d3eea5978e6cdc258b30de592b60df6aba96
   repo: https://github.com/mattn/go-colorable
