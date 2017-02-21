@@ -61,8 +61,29 @@ func TestUtils(t *testing.T) {
 		}
 	})
 
+	t.Run("MapsEqualForEmptMaps", func(t *testing.T) {
+		if !MapsEqual(map[string]string{"param1": "value1"}, map[string]string{"param1": "value1"}) {
+			t.Error("Error in MapsEqual")
+			t.Fail()
+		}
+	})
+
 	t.Run("MapsNotEqualLen", func(t *testing.T) {
-		if MapsEqual(map[string]string{"param1": "value1"}, map[string]string{"param1": "value1", "param2": "value2"}) {
+		if !MapsEqual(make(map[string]string, 0), nil) {
+			t.Error("Error in MapsEqual")
+			t.Fail()
+		}
+	})
+
+	t.Run("MapsNotEqualLen", func(t *testing.T) {
+		if !MapsEqual(nil, nil) {
+			t.Error("Error in MapsEqual")
+			t.Fail()
+		}
+	})
+
+	t.Run("MapsNotEqualLen", func(t *testing.T) {
+		if !MapsEqual(make(map[string]string, 0), make(map[string]string, 5)) {
 			t.Error("Error in MapsEqual")
 			t.Fail()
 		}

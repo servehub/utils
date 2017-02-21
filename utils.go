@@ -48,6 +48,9 @@ func MergeMaps(maps ...map[string]string) map[string]string {
 }
 
 func MapsEqual(a, b map[string]string) bool {
+	if len(a) == 0 && len(b) == 0 {
+		return true
+	}
 	return reflect.DeepEqual(a, b)
 }
 
