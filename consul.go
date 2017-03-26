@@ -55,6 +55,6 @@ var DeletePluginData = func(plugin string, packageName string, consulAddress str
 
 func MarkAsOutdated(client *consul.Client, name string, delay time.Duration) error {
 	log.Printf("Mark service `%s` as outdated\n", name)
-	json := fmt.Sprintf(`{"endOfLife":%d}`, time.Now().Add(delay).UnixNano()/int64(time.Millisecond))
+	json := fmt.Sprintf(`{"endOfLife":"%s"}`, time.Now().Add(delay).Format(time.RFC3339))
 	return PutConsulKv(client, "services/outdated/"+name, json)
 }
