@@ -62,6 +62,16 @@ func TestUtilsTemplater(t *testing.T) {
 			in:     `{{ list }}`,
 			expect: `1`,
 		},
+
+		"lower": {
+			in:     `{{ name | lower  }}`,
+			expect: `some&name with_simbols`,
+		},
+
+		"lower & replace ": {
+			in:     `{{ name | lower | replace('\W|_', '-') }}`,
+			expect: `some-name-with-simbols`,
+		},
 	})
 }
 
@@ -73,20 +83,20 @@ func runAllProcessorTests(t *testing.T, cases map[string]processorTestCase) {
 		"version": "{{ feature }}-{{ feature-suffix }}",
 		"feature": "value-unknown",
 		"feature-suffix": "{{ feature }}",
+		"name": "Some&Name With_simbols",
 		"list": [1, 2, 3]
 	}`
 
-	tree, err := gabs.ParseJSON([]byte(json))
-	if err != nil {
-		t.Errorf("%v: failed!\n", err)
-		t.Fail()
-	}
 	for name, test := range cases {
 		t.Run(name, func(t *testing.T) {
+			tree, err := gabs.ParseJSON([]byte(json))
+			if err != nil {
+				t.Fatalf("%v: failed!\n", err)
+			}
+
 			if res, err := Template(test.in, tree); err == nil {
 				if test.expect != res {
 					t.Errorf("%v: %v != %v: failed!\n", name, test.expect, res)
-					t.Fail()
 				}
 			}
 		})

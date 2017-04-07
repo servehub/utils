@@ -18,14 +18,19 @@ var ModifyFuncs = map[string]interface{}{
 	"same":    same,
 	"reverse": reverse,
 	"takeWhile": takeWhile,
+	"lower": lower,
 }
 
 func replace(old, r, new string) string {
 	return regexp.MustCompile(r).ReplaceAllString(old, new)
 }
 
-func takeWhile(old, symbol string) string {
-	return strings.SplitN(old, symbol, 2)[0]
+func takeWhile(s, symbol string) string {
+	return strings.SplitN(s, symbol, 2)[0]
+}
+
+func lower(s string) string {
+	return strings.ToLower(s)
 }
 
 func same(s string) string {
