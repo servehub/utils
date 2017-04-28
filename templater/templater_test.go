@@ -74,8 +74,18 @@ func TestUtilsTemplater(t *testing.T) {
 		},
 
 		"percent": {
-			in:     `{{ memory | percent("50") }}`,
+			in:     `{{ number | percent("50") }}`,
 			expect: `32`,
+		},
+
+		"percent: parse int from string": {
+			in:     `{{ memory | percent("75") }}`,
+			expect: `192`,
+		},
+
+		"percent: round": {
+			in:     `{{ number | percent("13.5") }}`,
+			expect: `8`,
 		},
 	})
 }
@@ -89,7 +99,8 @@ func runAllProcessorTests(t *testing.T, cases map[string]processorTestCase) {
 		"feature": "value-unknown",
 		"feature-suffix": "{{ feature }}",
 		"name": "Some&Name With_simbols",
-		"memory": 64,
+		"number": 64,
+		"memory": "256m",
 		"list": [1, 2, 3]
 	}`
 

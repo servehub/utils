@@ -27,13 +27,15 @@ func replace(old, r, new string) string {
 	return regexp.MustCompile(r).ReplaceAllString(old, new)
 }
 
+var onlyNumberReg = regexp.MustCompile("[^\\d.]")
+
 func percent(value interface{}, percent interface{}) string {
-	perc, err := strconv.ParseFloat(fmt.Sprintf("%v", percent), 64)
+	perc, err := strconv.ParseFloat(onlyNumberReg.ReplaceAllString(fmt.Sprintf("%v", percent), ""), 64)
 	if err != nil {
 		log.Panicf("Error on parse percent `%v`: %v", perc, err)
 	}
 
-	val, err := strconv.ParseFloat(fmt.Sprintf("%v", value), 64)
+	val, err := strconv.ParseFloat(onlyNumberReg.ReplaceAllString(fmt.Sprintf("%v", value), ""), 64)
 	if err != nil {
 		log.Panicf("Error on parse value `%v`: %v", value, err)
 	}
