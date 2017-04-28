@@ -1,18 +1,20 @@
 hash: 8928f2047f215709d073ed9dee9fb98b4541ceee92adbfb5915fa57e632cd777
-updated: 2017-04-11T16:02:04.448449306+03:00
+updated: 2017-04-28T16:38:24.3184745+03:00
 imports:
 - name: github.com/fatih/color
   version: 9131ab34cf20d2f6d83fdc67168a5430d1c7dc23
 - name: github.com/ghodss/yaml
   version: 0ca9ea5df5451ffdf184b4428c902747c2c11cd7
 - name: github.com/hashicorp/consul
-  version: 3f92cc70e8163df866873c16c6d89889b5c95fc4
+  version: 48fa2962eb7775e68049957c7257d9c52a21b520
   subpackages:
   - api
 - name: github.com/hashicorp/go-cleanhttp
   version: 3573b8b52aa7b37b9358d966a898feb387f62437
+- name: github.com/hashicorp/go-rootcerts
+  version: 6bb64b370b90e7ef1fa532be9e591a81c3493e00
 - name: github.com/hashicorp/serf
-  version: 19f2c401e122352c047a84d6584dd51e2fb8fcc4
+  version: 65c2babe73c7a096cd24e9eeec67613eb4e436c9
   subpackages:
   - coordinate
 - name: github.com/mattn/go-colorable
@@ -21,6 +23,8 @@ imports:
 - name: github.com/mattn/go-isatty
   version: 57fdcb988a5c543893cc61bce354a6e24ab70022
   repo: https://github.com/mattn/go-isatty
+- name: github.com/mitchellh/go-homedir
+  version: b8bc1bf767474819792c23f32d8286a45736f1c6
 - name: github.com/valyala/bytebufferpool
   version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
 - name: github.com/valyala/fasttemplate
@@ -31,5 +35,5 @@ imports:
   subpackages:
   - unix
 - name: gopkg.in/yaml.v2
-  version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
+  version: 53feefa2559fb8dfa8d81baad31be332c97d6c77
 testImports: []

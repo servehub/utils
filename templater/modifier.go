@@ -3,6 +3,7 @@ package templater
 import (
 	"errors"
 	"fmt"
+	"log"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -14,15 +15,30 @@ import (
 )
 
 var ModifyFuncs = map[string]interface{}{
-	"replace": replace,
-	"same":    same,
-	"reverse": reverse,
+	"replace":   replace,
+	"same":      same,
+	"reverse":   reverse,
 	"takeWhile": takeWhile,
-	"lower": lower,
+	"lower":     lower,
+	"percent":   percent,
 }
 
 func replace(old, r, new string) string {
 	return regexp.MustCompile(r).ReplaceAllString(old, new)
+}
+
+func percent(value interface{}, percent interface{}) string {
+	perc, err := strconv.ParseFloat(fmt.Sprintf("%v", percent), 64)
+	if err != nil {
+		log.Panicf("Error on parse percent `%v`: %v", perc, err)
+	}
+
+	val, err := strconv.ParseFloat(fmt.Sprintf("%v", value), 64)
+	if err != nil {
+		log.Panicf("Error on parse value `%v`: %v", value, err)
+	}
+
+	return fmt.Sprintf("%d", int64(val/100*perc))
 }
 
 func takeWhile(s, symbol string) string {

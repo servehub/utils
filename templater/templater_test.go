@@ -72,6 +72,11 @@ func TestUtilsTemplater(t *testing.T) {
 			in:     `{{ name | lower | replace('\W|_', '-') }}`,
 			expect: `some-name-with-simbols`,
 		},
+
+		"percent": {
+			in:     `{{ memory | percent("50") }}`,
+			expect: `32`,
+		},
 	})
 }
 
@@ -84,6 +89,7 @@ func runAllProcessorTests(t *testing.T, cases map[string]processorTestCase) {
 		"feature": "value-unknown",
 		"feature-suffix": "{{ feature }}",
 		"name": "Some&Name With_simbols",
+		"memory": 64,
 		"list": [1, 2, 3]
 	}`
 
@@ -98,6 +104,8 @@ func runAllProcessorTests(t *testing.T, cases map[string]processorTestCase) {
 				if test.expect != res {
 					t.Errorf("%v: %v != %v: failed!\n", name, test.expect, res)
 				}
+			} else {
+				t.Errorf("Error on run `%s`: %v", name, err)
 			}
 		})
 	}
