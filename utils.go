@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"math/rand"
 	"reflect"
 	"strings"
@@ -54,10 +55,10 @@ func MapsEqual(a, b map[string]string) bool {
 	return reflect.DeepEqual(a, b)
 }
 
-type BySortIndex []map[string]string
+type BySortIndex []map[string]interface{}
 
 func (a BySortIndex) Len() int           { return len(a) }
-func (a BySortIndex) Less(i, j int) bool { return a[i]["sortIndex"] < a[j]["sortIndex"] }
+func (a BySortIndex) Less(i, j int) bool { return fmt.Sprintf("%v", a[i]["sortIndex"]) < fmt.Sprintf("%v", a[j]["sortIndex"]) }
 func (a BySortIndex) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 var allLetters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
