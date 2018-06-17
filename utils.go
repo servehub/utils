@@ -2,7 +2,9 @@ package utils
 
 import (
 	"fmt"
+	"io/ioutil"
 	"math/rand"
+	"os"
 	"reflect"
 	"strings"
 )
@@ -57,9 +59,11 @@ func MapsEqual(a, b map[string]string) bool {
 
 type BySortIndex []map[string]interface{}
 
-func (a BySortIndex) Len() int           { return len(a) }
-func (a BySortIndex) Less(i, j int) bool { return fmt.Sprintf("%v", a[i]["sortIndex"]) < fmt.Sprintf("%v", a[j]["sortIndex"]) }
-func (a BySortIndex) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a BySortIndex) Len() int { return len(a) }
+func (a BySortIndex) Less(i, j int) bool {
+	return fmt.Sprintf("%v", a[i]["sortIndex"]) < fmt.Sprintf("%v", a[j]["sortIndex"])
+}
+func (a BySortIndex) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 
 var allLetters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
@@ -90,4 +94,22 @@ func StripLeftMargin(data string) string {
 	}
 
 	return strings.Join(lines, "\n")
+}
+
+func WriteTemp(data []byte, callback func (string) error) error {
+	tmpfile, err := ioutil.TempFile("", "serve-")
+	if err != nil {
+		return fmt.Errorf("Error create tmpfile: %v", err)
+	}
+
+	defer func() {
+		tmpfile.Close()
+		os.Remove(tmpfile.Name())
+	}()
+
+	if _, err := tmpfile.Write(data); err != nil {
+		return fmt.Errorf("Error write to tmpfile: %v", err)
+	}
+
+	return callback(tmpfile.Name())
 }
