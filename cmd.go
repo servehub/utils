@@ -16,7 +16,7 @@ func RunCmd(cmdline string, a ...interface{}) error {
 var RunCmdWithEnv = func(cmdline string, env map[string]string) error {
 	log.Println(color.YellowString("> %s", cmdline))
 
-	cmd := exec.Command("/bin/bash", "-c", cmdline)
+	cmd := exec.Command("/bin/bash", "-ec", cmdline)
 
 	cmd.Env = os.Environ()
 
