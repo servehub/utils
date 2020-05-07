@@ -2,12 +2,23 @@ package utils
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"os/exec"
 
 	"github.com/fatih/color"
 )
+
+var cmdStdout io.Writer = os.Stdout
+var cmdStderr io.Writer = os.Stderr
+var cmdLogger func([]byte) = nil
+
+func SetCmdLogger(f func([]byte)) {
+	cmdStdout = nil
+	cmdStderr = nil
+	cmdLogger = f
+}
 
 func RunCmd(cmdline string, a ...interface{}) error {
 	return RunCmdWithEnv(fmt.Sprintf(cmdline, a...), make(map[string]string, 0))
@@ -24,10 +35,16 @@ var RunCmdWithEnv = func(cmdline string, env map[string]string) error {
 		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%v", k, v))
 	}
 
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	cmd.Stdout = cmdStdout
+	cmd.Stderr = cmdStderr
 
-	return cmd.Run()
+	if cmdLogger != nil {
+		out, err := cmd.CombinedOutput()
+		cmdLogger(out)
+		return err
+	} else {
+		return cmd.Run()
+	}
 }
 
 func RunSshCmd(cluster, sshUser, cmd string) error {
