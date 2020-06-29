@@ -20,6 +20,7 @@ var ModifyFuncs = map[string]interface{}{
 	"reverse":   reverse,
 	"takeWhile": takeWhile,
 	"lower":     lower,
+	"upper":     upper,
 	"percent":   percent,
 }
 
@@ -49,6 +50,10 @@ func takeWhile(s, symbol string) string {
 
 func lower(s string) string {
 	return strings.ToLower(s)
+}
+
+func upper(s string) string {
+	return strings.ToUpper(s)
 }
 
 func same(s string) string {
