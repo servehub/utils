@@ -68,6 +68,11 @@ func TestUtilsTemplater(t *testing.T) {
 			expect: `some&name with_simbols`,
 		},
 
+		"upper": {
+			in:     `{{ name | upper  }}`,
+			expect: `SOME&NAME WITH_SIMBOLS`,
+		},
+
 		"lower & replace ": {
 			in:     `{{ name | lower | replace('\W|_', '-') }}`,
 			expect: `some-name-with-simbols`,
