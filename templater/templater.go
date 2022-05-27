@@ -62,7 +62,7 @@ func _template(s string, context *gabs.Container, modify bool) (string, error) {
 			}
 		}
 
-		if strings.HasPrefix(tag, "vars.") || context.ExistsP(tag) {
+		if strings.HasPrefix(tag, "vars.") || strings.HasPrefix(tag, "envs.") || context.ExistsP(tag) {
 			return 0, nil
 		}
 
