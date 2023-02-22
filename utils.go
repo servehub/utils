@@ -7,6 +7,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"time"
 )
 
 func Substr(s string, pos, length int) string {
@@ -67,10 +68,12 @@ func (a BySortIndex) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 
 var allLetters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
+var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
+
 var RandomString = func(length uint) string {
 	b := make([]rune, length)
 	for i := range b {
-		b[i] = allLetters[rand.Intn(len(allLetters))]
+		b[i] = allLetters[seededRand.Intn(len(allLetters))]
 	}
 	return string(b)
 }
@@ -96,7 +99,7 @@ func StripLeftMargin(data string) string {
 	return strings.Join(lines, "\n")
 }
 
-func WriteTemp(data []byte, callback func (string) error) error {
+func WriteTemp(data []byte, callback func(string) error) error {
 	tmpfile, err := ioutil.TempFile("", "serve-")
 	if err != nil {
 		return fmt.Errorf("Error create tmpfile: %v", err)
