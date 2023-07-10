@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"strings"
@@ -68,19 +67,19 @@ type CachedObject struct {
 
 func ConsulCache(client *consul.Client, key string, ttlSeconds int, f func() *gabs.Container) *gabs.Container {
 	if pair, _, err := client.KV().Get("services/cache/"+key, nil); err == nil && pair != nil {
-		var cachedObject CachedObject
-		json.Unmarshal(pair.Value, &cachedObject)
-
-		if cachedObject.ExpiredAt > time.Now().Unix() {
-			return cachedObject.Obj
+		if cached, err := gabs.ParseJSON(pair.Value); err == nil && cached != nil && cached.Path("expiredAt").Data().(float64) > float64(time.Now().Unix()) {
+			return cached.Path("obj")
 		}
 	}
 
 	obj := f()
-	client.KV().Put(&consul.KVPair{
-		Key:   "services/cache/" + key,
+
+	if _, err := client.KV().Put(&consul.KVPair{
+		Key:   "services/cache/" + strings.Trim(key, "/"),
 		Value: []byte(fmt.Sprintf(`{"expiredAt": %d, "obj": %s}`, time.Now().Unix()+int64(ttlSeconds), obj.String())),
-	}, nil)
+	}, nil); err != nil {
+		log.Println(color.RedString("Error on put consul cache: %v", err))
+	}
 
 	return obj
 }
